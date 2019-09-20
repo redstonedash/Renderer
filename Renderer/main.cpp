@@ -125,9 +125,9 @@ rgb hsv2rgb(hsv in)
 	}
 	return out;
 }
-//#define JUSTICE_MAIN 1 //code i read from justice
+#define JUSTICE_MAIN 0 //code i read from justice
 #define ONYX_FLOOR_MAIN 1
-#ifdef JUSTICE_MAIN
+#if JUSTICE_MAIN
 int main()
 {
 	context game;
@@ -200,13 +200,13 @@ int main()
 	notagame.init(640, 480, "BIG BRAIN TIME");
 	vertex triVerts[] =
 	{
-		{ { -1.f, 0, 1.f, 1 }, {1.f,0.f,0.f,1.f}, {0.f,1.f,0.f,0.f}, {0.f,1.f}  },
-		{ { -1.f, 0, -1.f, 1 }, {0.f,1.f,0.f,1.f},{0.f,1.f,0.f,0.f}, {0.f, 0.f} },
-		{ { 1.f, 0, 1.f, 1 }, {0.f,0.f,1.f,1.f},  {0.f,1.f,0.f,0.f}, {1.f, 1.f} },
-		{ { 1.f, 0, -1.f, 1 }, {0.f,0.f,1.f,1.f}, {0.f,1.f,0.f,0.f}, {1.f, -1.f} }
+		{ { -5.f, -2.f, -5.f, 1 }, {1.f,0.f,0.f,1.f}, {0.f,1.f,0.f,0.f}, {0.f,1.f}  },
+		{ { -5.f, -2.f,  5.f, 1 }, {1.f,1.f,0.f,1.f},{0.f,1.f,0.f,0.f}, {0.f, 0.f} },
+		{ {  5.f, -2.f, -5.f, 1 }, {1.f,0.f,1.f,1.f},  {0.f,1.f,0.f,0.f}, {1.f, 1.f} },
+		{ {  5.f, -2.f,  5.f, 1 }, {1.f,0.f,1.f,1.f}, {0.f,1.f,0.f,0.f}, {1.f, -1.f} }
 	};
 
-	unsigned int triIndices[] = { 0, 1, 2 };
+	unsigned int triIndices[] = { 0, 1, 2 , 1,2,3 };
 
 #pragma region Load shaders from file
 	std::ifstream ifs("shaders/FragmentShader.shader");
@@ -220,7 +220,7 @@ int main()
 	const char * basicVert = content2.c_str();
 #pragma endregion
 
-	geometry triangle = makeGeometry(triVerts, 3, triIndices, 3);
+	geometry triangle = makeGeometry(triVerts, sizeof(triVerts), triIndices, sizeof(triIndices));
 	shader basicShad = makeShader(basicVert, basicFrag);
 	//int vertexColorLocation = glGetUniformLocation(basicShad.program, "modColor");
 
@@ -242,7 +242,7 @@ int main()
 		setUniform(basicShad, 0, camProj);
 		setUniform(basicShad, 1, camView);
 		setUniform(basicShad, 2, triModel);
-		setUniform(basicShad, 4, glm::vec3(-1, 0, 0));
+		setUniform(basicShad, 4, glm::vec3(0, -0.1f, 0));
 
 
 		/*float timeValue = game.getTime();
